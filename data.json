@@ -1,0 +1,17 @@
+{
+  "users": {
+    "aabisanaytulla": {
+      "id": "1770133458393",
+      "realName": "aabis anaytullah",
+      "username": "aabisanaytulla",
+      "password": "$2a$10$2UmDD2PFYMiOart4pIhXy.drmgnH6JqAB83sSwNeJESyVV.UoHDD6",
+      "crypto": 3,
+      "score": 240,
+      "level": 1,
+      "weapons": {
+        "pistol": true
+      },
+      "created": "2026-02-03T15:44:18.483Z"
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "users": {
+    "aabis": {
+      "id": "1769952121999",
+      "username": "Aabis",
+      "password": "$2a$10$sQHHYJ2vHADmM2BJJeZMhu8aPdUcLZwl8fMDyW.bfau8Pp9sQ3TOC",
+      "progress": {
+        "maxUnlockedLevel": 9,
+        "totalScore": 6530,
+        "levelScores": {
+          "1": 1000,
+          "2": 1020,
+          "3": 870,
+          "4": 630,
+          "5": 1000,
+          "6": 1120,
+          "8": 890
+        },
+        "levelStars": {
+          "1": 3,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 3,
+          "8": 3
+        }
+      }
+    }
+  },
+  "leaderboard": [
+    {
+      "userId": "1769952121999",
+      "username": "Aabis",
+      "totalScore": 6530
+    },
+    {
+      "userId": "1769952121999",
+      "username": "Aabis",
+      "totalScore": 5640
+    },
+    {
+      "userId": "1769952121999",
+      "username": "Aabis",
+      "totalScore": 4520
+    },
+    {
+      "userId": "1769952121999",
+      "username": "Aabis",
+      "totalScore": 3520
+    },
+    {
+      "userId": "1769952121999",
+      "username": "Aabis",
+      "totalScore": 2890
+    },
+    {
+      "userId": "1769952121999",
+      "username": "Aabis",
+      "totalScore": 2020
+    },
+    {
+      "userId": "1769952121999",
+      "username": "Aabis",
+      "totalScore": 1000
+    }
+  ]
+}
