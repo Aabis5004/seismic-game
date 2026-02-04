@@ -58,48 +58,26 @@ for(var i=0;i<notes.length;i++){var o=this.ctx.createOscillator(),g=this.ctx.cre
 setTimeout(function(){self.loop()},1200)},
 fx:function(f){this.init();var o=this.ctx.createOscillator(),g=this.ctx.createGain();o.connect(g);g.connect(this.ctx.destination);o.type='square';o.frequency.value=f;g.gain.value=0.08;g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+0.1);o.start();o.stop(this.ctx.currentTime+0.1)}};
 
+// SEISMIC LOGO - Stacked bars forming abstract S shape
 function drawSeismicLogo(scene,x,y,scale){
-    var s=scale||1,g=scene.add.graphics();
-    // Main crystal shape (hexagon gem)
+    var s=scale||1;
+    var g=scene.add.graphics();
+    
+    // The Seismic logo is stacked horizontal bars
+    // Top section - 3 bars going right
     g.fillStyle(0xD0A0B7,1);
-    g.beginPath();
-    g.moveTo(x,y-50*s);
-    g.lineTo(x+40*s,y-25*s);
-    g.lineTo(x+40*s,y+25*s);
-    g.lineTo(x,y+50*s);
-    g.lineTo(x-40*s,y+25*s);
-    g.lineTo(x-40*s,y-25*s);
-    g.closePath();
-    g.fillPath();
-    // Inner darker facet
-    g.fillStyle(0x6A525D,1);
-    g.beginPath();
-    g.moveTo(x,y-35*s);
-    g.lineTo(x+28*s,y-17*s);
-    g.lineTo(x+28*s,y+17*s);
-    g.lineTo(x,y+35*s);
-    g.lineTo(x-28*s,y+17*s);
-    g.lineTo(x-28*s,y-17*s);
-    g.closePath();
-    g.fillPath();
-    // Top highlight
-    g.fillStyle(0xeac4d5,0.4);
-    g.beginPath();
-    g.moveTo(x,y-35*s);
-    g.lineTo(x+28*s,y-17*s);
-    g.lineTo(x,y-5*s);
-    g.lineTo(x-28*s,y-17*s);
-    g.closePath();
-    g.fillPath();
-    // Center line
-    g.fillStyle(0x4a3a44,1);
-    g.beginPath();
-    g.moveTo(x,y-35*s);
-    g.lineTo(x,y+35*s);
-    g.lineTo(x-3*s,y+33*s);
-    g.lineTo(x-3*s,y-33*s);
-    g.closePath();
-    g.fillPath();
+    g.fillRoundedRect(x-30*s,y-45*s,50*s,8*s,2);
+    g.fillRoundedRect(x-30*s,y-33*s,42*s,8*s,2);
+    g.fillRoundedRect(x-30*s,y-21*s,34*s,8*s,2);
+    
+    // Middle bar
+    g.fillRoundedRect(x-15*s,y-9*s,30*s,8*s,2);
+    
+    // Bottom section - 3 bars going left
+    g.fillRoundedRect(x-4*s,y+3*s,34*s,8*s,2);
+    g.fillRoundedRect(x-12*s,y+15*s,42*s,8*s,2);
+    g.fillRoundedRect(x-20*s,y+27*s,50*s,8*s,2);
+    
     return g;
 }
 
@@ -108,11 +86,11 @@ initialize:function(){Phaser.Scene.call(this,{key:'Boot'})},
 preload:function(){
     var self=this;
     this.add.rectangle(W/2,H/2,W,H,0x0d0d15);
-    drawSeismicLogo(this,W/2,H/2-50,1.2);
-    this.add.text(W/2,H/2+40,'SEISMIC',{fontSize:'42px',fontStyle:'bold',color:'#D0A0B7'}).setOrigin(0.5);
-    this.add.text(W/2,H/2+80,'2026',{fontSize:'22px',color:'#00ff88'}).setOrigin(0.5);
-    var fill=this.add.rectangle(W/2-120,H/2+130,0,12,PK).setOrigin(0,0.5);
-    this.add.rectangle(W/2,H/2+130,250,14,0x1a1a2e).setStrokeStyle(1,PK);
+    drawSeismicLogo(this,W/2,H/2-60,1.5);
+    this.add.text(W/2,H/2+30,'SEISMIC',{fontSize:'48px',fontStyle:'bold',color:'#D0A0B7'}).setOrigin(0.5);
+    this.add.text(W/2,H/2+75,'2026',{fontSize:'24px',color:'#00ff88'}).setOrigin(0.5);
+    var fill=this.add.rectangle(W/2-120,H/2+120,0,12,PK).setOrigin(0,0.5);
+    this.add.rectangle(W/2,H/2+120,250,14,0x1a1a2e).setStrokeStyle(1,PK);
     var p=0;this.time.addEvent({delay:250,repeat:4,callback:function(){p+=25;fill.width=240*(p/100);if(p>=100)self.time.delayedCall(300,function(){self.scene.start('Menu')})}});
     this.genTex();
 },
@@ -141,19 +119,19 @@ create:function(){
     var self=this;
     this.add.rectangle(W/2,H/2,W,H,0x0d0d15);
     for(var i=0;i<20;i++){var s=this.add.circle(Phaser.Math.Between(0,W),Phaser.Math.Between(0,H),1,0xffffff,0.15);this.tweens.add({targets:s,y:'-=80',alpha:0,duration:Phaser.Math.Between(3000,5000),repeat:-1})}
-    drawSeismicLogo(this,W/2,130,0.9);
-    this.add.text(W/2,200,'SEISMIC',{fontSize:'36px',fontStyle:'bold',color:'#D0A0B7'}).setOrigin(0.5);
-    this.add.text(W/2,235,'2026',{fontSize:'20px',color:'#00ff88'}).setOrigin(0.5);
+    drawSeismicLogo(this,W/2,110,1.2);
+    this.add.text(W/2,175,'SEISMIC',{fontSize:'38px',fontStyle:'bold',color:'#D0A0B7'}).setOrigin(0.5);
+    this.add.text(W/2,215,'2026',{fontSize:'20px',color:'#00ff88'}).setOrigin(0.5);
     if(U){
-        this.add.text(W/2,290,'Welcome, '+U.realName,{fontSize:'15px',color:'#D0A0B7'}).setOrigin(0.5);
-        this.btn(W/2,360,'START GAME',function(){Audio.play();self.scene.start('Levels')});
-        this.btn(W/2,420,'LEADERBOARD',function(){self.scene.start('Leader')});
-        this.btn(W/2,480,'LOGOUT',logout);
+        this.add.text(W/2,265,'Welcome, '+U.realName,{fontSize:'15px',color:'#D0A0B7'}).setOrigin(0.5);
+        this.btn(W/2,330,'START GAME',function(){Audio.play();self.scene.start('Levels')});
+        this.btn(W/2,390,'LEADERBOARD',function(){self.scene.start('Leader')});
+        this.btn(W/2,450,'LOGOUT',logout);
     }else{
-        this.add.text(W/2,290,'Encrypt the future of finance',{fontSize:'12px',color:'#666'}).setOrigin(0.5);
-        this.btn(W/2,360,'LOGIN',function(){showM('logM')});
-        this.btn(W/2,420,'REGISTER',function(){showM('regM')});
-        this.btn(W/2,480,'PLAY AS GUEST',function(){U={username:'Guest',realName:'Guest'};Audio.play();self.scene.start('Levels')});
+        this.add.text(W/2,265,'Encrypt the future of finance',{fontSize:'12px',color:'#666'}).setOrigin(0.5);
+        this.btn(W/2,330,'LOGIN',function(){showM('logM')});
+        this.btn(W/2,390,'REGISTER',function(){showM('regM')});
+        this.btn(W/2,450,'PLAY AS GUEST',function(){U={username:'Guest',realName:'Guest'};Audio.play();self.scene.start('Levels')});
     }
     this.add.text(W/2,H-30,'WASD Move | SPACE Fly | CLICK Shoot',{fontSize:'10px',color:'#444'}).setOrigin(0.5);
 },
