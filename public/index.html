@@ -18,7 +18,7 @@
         .modal input{width:100%;padding:14px 16px;margin:10px 0;background:#0a0a12;border:2px solid #333;color:#fff;border-radius:8px;font-size:15px;transition:border 0.3s}
         .modal input:focus{border-color:#D0A0B7;outline:none}
         .modal input::placeholder{color:#555}
-        .modal button{width:100%;padding:16px;margin-top:20px;background:linear-gradient(135deg,#D0A0B7,#a07a8a);border:none;color:#0a0a12;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
+        .modal button{width:100%;padding:16px;margin-top:20px;background:linear-gradient(135deg,#D0A0B7,#8D6477);border:none;color:#0a0a12;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
         .modal button:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(208,160,183,0.4)}
         .modal .error{color:#ff4466;font-size:13px;margin-top:15px;text-align:center;min-height:20px}
         .modal .switch{color:#666;font-size:13px;text-align:center;margin-top:20px}
@@ -27,9 +27,9 @@
         .modal .close:hover{color:#D0A0B7}
         
         /* Achievement popup */
-        .achievement{position:fixed;top:20px;right:-400px;background:linear-gradient(135deg,#1a1a2e,#0a2a0a);border:2px solid #00ff88;border-radius:12px;padding:20px 25px;z-index:999;transition:right 0.5s ease}
+        .achievement{position:fixed;top:20px;right:-400px;background:linear-gradient(135deg,#1a1a2e,#0a2a0a);border:2px solid #D0A0B7;border-radius:12px;padding:20px 25px;z-index:999;transition:right 0.5s ease}
         .achievement.show{right:20px}
-        .achievement h3{color:#00ff88;margin-bottom:8px;font-size:16px}
+        .achievement h3{color:#D0A0B7;margin-bottom:8px;font-size:16px}
         .achievement p{color:#aaa;font-size:13px}
     </style>
 </head>
@@ -40,7 +40,7 @@
 <div class="modal" id="loginModal">
     <div class="modal-box">
         <span class="close" onclick="hideModals()">&times;</span>
-        <h2>🔐 LOGIN</h2>
+        <h2>LOGIN</h2>
         <input type="text" id="loginUser" placeholder="Username" autocomplete="username">
         <input type="password" id="loginPass" placeholder="Password" autocomplete="current-password">
         <button onclick="doLogin()">LOGIN</button>
@@ -53,7 +53,7 @@
 <div class="modal" id="registerModal">
     <div class="modal-box">
         <span class="close" onclick="hideModals()">&times;</span>
-        <h2>📝 CREATE ACCOUNT</h2>
+        <h2>CREATE ACCOUNT</h2>
         <input type="text" id="regName" placeholder="Your Real Name">
         <input type="text" id="regUser" placeholder="Choose a Username">
         <input type="password" id="regPass" placeholder="Choose a Password">
@@ -65,7 +65,7 @@
 
 <!-- Achievement Popup -->
 <div class="achievement" id="achievementPopup">
-    <h3 id="achieveTitle">🏆 Achievement!</h3>
+    <h3 id="achieveTitle">Achievement!</h3>
     <p id="achieveDesc">You did something amazing!</p>
 </div>
 
@@ -146,7 +146,7 @@ async function doRegister() {
         id: Date.now().toString(),
         realName: name,
         username: user,
-        password: btoa(pass), // Simple encoding (not secure, but works for game)
+        password: btoa(pass),
         highScore: 0,
         totalCrypto: 0,
         level: 1,
@@ -161,7 +161,7 @@ async function doRegister() {
     localStorage.setItem('seismic_user', JSON.stringify(currentUser));
     
     hideModals();
-    showAchievement('🎉 Welcome!', 'Account created successfully!');
+    showAchievement('Welcome!', 'Account created successfully!');
     
     // Refresh menu
     if (window.game) {
@@ -196,7 +196,7 @@ async function doLogin() {
     localStorage.setItem('seismic_user', JSON.stringify(currentUser));
     
     hideModals();
-    showAchievement('👋 Welcome back!', userData.realName);
+    showAchievement('Welcome back!', userData.realName);
     
     // Refresh menu
     if (window.game) {
@@ -266,9 +266,21 @@ async function getLeaderboard() {
 }
 
 // ============================================================
-// GAME CONSTANTS
+// GAME CONSTANTS - Updated Brand Colors
 // ============================================================
-const C = { W: 1280, H: 720, pink: 0xD0A0B7, dark: 0x0a0a12, green: 0x00ff88, red: 0xff4466, blue: 0x4a9fff, orange: 0xffaa00 };
+const C = { 
+    W: 1280, 
+    H: 720, 
+    pink: 0xD0A0B7,      // Primary pink
+    pinkDark: 0x8D6477,  // Medium pink
+    pinkDeep: 0x6A525D,  // Dark pink/mauve
+    dark: 0x0a0a12, 
+    green: 0x00ff88, 
+    red: 0xff4466, 
+    blue: 0x4a9fff, 
+    orange: 0xffaa00,
+    white: 0xffffff
+};
 
 // ============================================================
 // BOOT SCENE
@@ -280,14 +292,14 @@ class Boot extends Phaser.Scene {
         const w = C.W, h = C.H;
         this.add.rectangle(w/2, h/2, w, h, C.dark);
         
-        // Seismic Logo
-        this.drawLogo(w/2, h/2 - 60);
+        // Seismic Crystal Logo
+        this.drawSeismicLogo(w/2, h/2 - 60);
         
         // Loading bar
-        const barBg = this.add.rectangle(w/2, h/2 + 100, 320, 24, 0x1a1a2e);
+        const barBg = this.add.rectangle(w/2, h/2 + 120, 320, 24, 0x1a1a2e);
         barBg.setStrokeStyle(2, C.pink);
-        const bar = this.add.rectangle(w/2 - 155, h/2 + 100, 0, 18, C.pink).setOrigin(0, 0.5);
-        const txt = this.add.text(w/2, h/2 + 140, 'Initializing...', { fontSize: '13px', color: '#666' }).setOrigin(0.5);
+        const bar = this.add.rectangle(w/2 - 155, h/2 + 120, 0, 18, C.pink).setOrigin(0, 0.5);
+        const txt = this.add.text(w/2, h/2 + 160, 'Initializing...', { fontSize: '13px', color: '#666' }).setOrigin(0.5);
         
         const steps = ['Connecting to blockchain...', 'Loading encryption modules...', 'Generating assets...', 'System ready.'];
         let i = 0;
@@ -309,25 +321,72 @@ class Boot extends Phaser.Scene {
         this.generateTextures();
     }
     
-    drawLogo(x, y) {
+    drawSeismicLogo(x, y) {
         const g = this.add.graphics();
         
-        // Seismic stacked bar logo
-        const barWidth = 60;
-        const barHeight = 12;
-        const gap = 6;
-        const startY = y - 50;
+        // Crystal gem shape based on brand kit SVG
+        const scale = 0.12;
+        const centerX = x;
+        const centerY = y - 20;
         
-        const widths = [0.4, 0.6, 0.8, 1.0, 0.8, 0.6];
+        // Main crystal facets (translated from SVG paths)
+        // Left facet
+        g.fillGradientStyle(C.pinkDeep, C.pinkDeep, C.pink, C.pink, 1);
+        g.beginPath();
+        g.moveTo(centerX, centerY - 60);
+        g.lineTo(centerX - 40, centerY + 20);
+        g.lineTo(centerX, centerY + 80);
+        g.lineTo(centerX, centerY - 60);
+        g.closePath();
+        g.fillPath();
         
-        widths.forEach((w, i) => {
-            const bw = barWidth * w;
-            g.fillStyle(C.pink);
-            g.fillRoundedRect(x - bw/2, startY + i * (barHeight + gap), bw, barHeight, 3);
-        });
+        // Right facet
+        g.fillGradientStyle(C.pink, C.pink, C.pinkDark, C.pinkDark, 1);
+        g.beginPath();
+        g.moveTo(centerX, centerY - 60);
+        g.lineTo(centerX + 45, centerY + 10);
+        g.lineTo(centerX, centerY + 80);
+        g.closePath();
+        g.fillPath();
         
-        this.add.text(x, y + 50, 'SEISMIC', { fontSize: '38px', fontFamily: 'Arial Black', color: '#D0A0B7', letterSpacing: 8 }).setOrigin(0.5);
-        this.add.text(x, y + 90, '2026', { fontSize: '24px', color: '#00ff88' }).setOrigin(0.5);
+        // Top right facet
+        g.fillGradientStyle(C.pinkDeep, C.pinkDark, C.pinkDeep, C.pinkDark, 1);
+        g.beginPath();
+        g.moveTo(centerX, centerY - 60);
+        g.lineTo(centerX + 45, centerY + 10);
+        g.lineTo(centerX + 55, centerY - 30);
+        g.closePath();
+        g.fillPath();
+        
+        // Bottom facet
+        g.fillGradientStyle(C.pinkDark, C.pinkDark, C.pinkDeep, C.pinkDeep, 1);
+        g.beginPath();
+        g.moveTo(centerX - 40, centerY + 20);
+        g.lineTo(centerX + 45, centerY + 10);
+        g.lineTo(centerX, centerY + 80);
+        g.closePath();
+        g.fillPath();
+        
+        // Add subtle highlight
+        g.lineStyle(1, C.white, 0.3);
+        g.beginPath();
+        g.moveTo(centerX, centerY - 60);
+        g.lineTo(centerX + 45, centerY + 10);
+        g.strokePath();
+        
+        // Brand text
+        this.add.text(x, y + 70, 'SEISMIC', { 
+            fontSize: '38px', 
+            fontFamily: 'Arial Black, Arial', 
+            color: '#D0A0B7', 
+            letterSpacing: 8 
+        }).setOrigin(0.5);
+        
+        this.add.text(x, y + 110, '2026', { 
+            fontSize: '24px', 
+            color: '#8D6477',
+            letterSpacing: 4
+        }).setOrigin(0.5);
     }
     
     generateTextures() {
@@ -378,7 +437,7 @@ class Boot extends Phaser.Scene {
         
         // Bullet
         g = this.make.graphics({ add: false });
-        g.fillStyle(C.green); g.fillRect(0, 2, 14, 4);
+        g.fillStyle(C.pink); g.fillRect(0, 2, 14, 4);
         g.generateTexture('bullet', 14, 8);
         g.destroy();
         
@@ -406,16 +465,16 @@ class Boot extends Phaser.Scene {
         
         // Crypto collectible
         g = this.make.graphics({ add: false });
-        g.fillStyle(C.green, 0.3); g.fillCircle(16, 16, 14);
-        g.fillStyle(C.green); g.fillCircle(16, 16, 10);
+        g.fillStyle(C.pink, 0.3); g.fillCircle(16, 16, 14);
+        g.fillStyle(C.pink); g.fillCircle(16, 16, 10);
         g.fillStyle(0xffffff); g.fillRect(14, 10, 4, 12); g.fillRect(10, 14, 12, 4);
         g.generateTexture('crypto', 32, 32);
         g.destroy();
         
         // Key collectible
         g = this.make.graphics({ add: false });
-        g.fillStyle(C.pink, 0.3); g.fillCircle(16, 16, 14);
-        g.fillStyle(C.pink); g.fillRect(8, 14, 16, 6); g.fillCircle(12, 17, 5);
+        g.fillStyle(C.pinkDark, 0.3); g.fillCircle(16, 16, 14);
+        g.fillStyle(C.pinkDark); g.fillRect(8, 14, 16, 6); g.fillCircle(12, 17, 5);
         g.generateTexture('key', 32, 32);
         g.destroy();
         
@@ -436,9 +495,9 @@ class Boot extends Phaser.Scene {
         
         // Portal
         g = this.make.graphics({ add: false });
-        g.fillStyle(C.green, 0.3); g.fillEllipse(24, 40, 40, 70);
-        g.fillStyle(C.green, 0.6); g.fillEllipse(24, 40, 28, 50);
-        g.fillStyle(C.green); g.fillEllipse(24, 40, 16, 30);
+        g.fillStyle(C.pink, 0.3); g.fillEllipse(24, 40, 40, 70);
+        g.fillStyle(C.pink, 0.6); g.fillEllipse(24, 40, 28, 50);
+        g.fillStyle(C.pink); g.fillEllipse(24, 40, 16, 30);
         g.generateTexture('portal', 48, 80);
         g.destroy();
         
@@ -492,25 +551,25 @@ class Menu extends Phaser.Scene {
         }
         
         // Logo
-        this.drawLogo(w/2, 140);
+        this.drawSeismicLogo(w/2, 140);
         
         // Tagline
-        this.add.text(w/2, 260, 'Encrypt the future of finance', { fontSize: '14px', color: '#666', fontStyle: 'italic' }).setOrigin(0.5);
+        this.add.text(w/2, 280, 'Encrypt the future of finance', { fontSize: '14px', color: '#6A525D', fontStyle: 'italic' }).setOrigin(0.5);
         
         // User status
         if (currentUser) {
-            this.add.text(w/2, 310, 'Welcome, ' + currentUser.realName, { fontSize: '18px', color: '#D0A0B7' }).setOrigin(0.5);
-            this.add.text(w/2, 335, '@' + currentUser.username, { fontSize: '13px', color: '#666' }).setOrigin(0.5);
+            this.add.text(w/2, 330, 'Welcome, ' + currentUser.realName, { fontSize: '18px', color: '#D0A0B7' }).setOrigin(0.5);
+            this.add.text(w/2, 355, '@' + currentUser.username, { fontSize: '13px', color: '#6A525D' }).setOrigin(0.5);
             
-            this.createButton(w/2, 400, '▶  START GAME', () => this.scene.start('Levels'));
-            this.createButton(w/2, 465, '🏆  LEADERBOARD', () => this.scene.start('Leaderboard'));
-            this.createButton(w/2, 530, '🚪  LOGOUT', () => { logout(); this.scene.restart(); });
+            this.createButton(w/2, 420, 'START GAME', () => this.scene.start('Levels'));
+            this.createButton(w/2, 485, 'LEADERBOARD', () => this.scene.start('Leaderboard'));
+            this.createButton(w/2, 550, 'LOGOUT', () => { logout(); this.scene.restart(); });
         } else {
-            this.add.text(w/2, 310, 'Fight for financial privacy', { fontSize: '14px', color: '#555' }).setOrigin(0.5);
+            this.add.text(w/2, 330, 'Fight for financial privacy', { fontSize: '14px', color: '#555' }).setOrigin(0.5);
             
-            this.createButton(w/2, 380, '🔐  LOGIN', () => showLogin());
-            this.createButton(w/2, 445, '📝  REGISTER', () => showRegister());
-            this.createButton(w/2, 510, '👤  PLAY AS GUEST', () => {
+            this.createButton(w/2, 400, 'LOGIN', () => showLogin());
+            this.createButton(w/2, 465, 'REGISTER', () => showRegister());
+            this.createButton(w/2, 530, 'PLAY AS GUEST', () => {
                 currentUser = { username: 'Guest_' + Math.floor(Math.random() * 10000), realName: 'Guest', isGuest: true };
                 this.scene.start('Levels');
             });
@@ -520,22 +579,59 @@ class Menu extends Phaser.Scene {
         this.add.text(w/2, h - 35, 'WASD Move  |  HOLD SPACE Fly  |  CLICK Shoot', { fontSize: '12px', color: '#444' }).setOrigin(0.5);
     }
     
-    drawLogo(x, y) {
+    drawSeismicLogo(x, y) {
         const g = this.add.graphics();
-        const barWidth = 50;
-        const barHeight = 10;
-        const gap = 5;
-        const startY = y - 60;
-        const widths = [0.4, 0.6, 0.8, 1.0, 0.8, 0.6];
         
-        widths.forEach((w, i) => {
-            const bw = barWidth * w;
-            g.fillStyle(C.pink);
-            g.fillRoundedRect(x - bw/2, startY + i * (barHeight + gap), bw, barHeight, 3);
-        });
+        const centerX = x;
+        const centerY = y - 30;
         
-        this.add.text(x, y + 30, 'SEISMIC', { fontSize: '42px', fontFamily: 'Arial Black', color: '#D0A0B7', letterSpacing: 6 }).setOrigin(0.5);
-        this.add.text(x, y + 75, '2026', { fontSize: '22px', color: '#00ff88' }).setOrigin(0.5);
+        // Crystal gem shape
+        // Left facet
+        g.fillGradientStyle(C.pinkDeep, C.pinkDeep, C.pink, C.pink, 1);
+        g.beginPath();
+        g.moveTo(centerX, centerY - 50);
+        g.lineTo(centerX - 35, centerY + 15);
+        g.lineTo(centerX, centerY + 70);
+        g.lineTo(centerX, centerY - 50);
+        g.closePath();
+        g.fillPath();
+        
+        // Right facet
+        g.fillGradientStyle(C.pink, C.pink, C.pinkDark, C.pinkDark, 1);
+        g.beginPath();
+        g.moveTo(centerX, centerY - 50);
+        g.lineTo(centerX + 40, centerY + 8);
+        g.lineTo(centerX, centerY + 70);
+        g.closePath();
+        g.fillPath();
+        
+        // Top right facet
+        g.fillGradientStyle(C.pinkDeep, C.pinkDark, C.pinkDeep, C.pinkDark, 1);
+        g.beginPath();
+        g.moveTo(centerX, centerY - 50);
+        g.lineTo(centerX + 40, centerY + 8);
+        g.lineTo(centerX + 48, centerY - 25);
+        g.closePath();
+        g.fillPath();
+        
+        // Bottom facet
+        g.fillGradientStyle(C.pinkDark, C.pinkDark, C.pinkDeep, C.pinkDeep, 1);
+        g.beginPath();
+        g.moveTo(centerX - 35, centerY + 15);
+        g.lineTo(centerX + 40, centerY + 8);
+        g.lineTo(centerX, centerY + 70);
+        g.closePath();
+        g.fillPath();
+        
+        // Highlight line
+        g.lineStyle(1, 0xffffff, 0.4);
+        g.beginPath();
+        g.moveTo(centerX, centerY - 50);
+        g.lineTo(centerX + 40, centerY + 8);
+        g.strokePath();
+        
+        this.add.text(x, y + 60, 'SEISMIC', { fontSize: '42px', fontFamily: 'Arial Black, Arial', color: '#D0A0B7', letterSpacing: 6 }).setOrigin(0.5);
+        this.add.text(x, y + 105, '2026', { fontSize: '22px', color: '#8D6477', letterSpacing: 4 }).setOrigin(0.5);
     }
     
     createButton(x, y, text, callback) {
@@ -574,16 +670,16 @@ class Levels extends Phaser.Scene {
                 .setStrokeStyle(2, C.pink)
                 .setInteractive({ useHandCursor: true });
             
-            this.add.text(w/2 - 300, y - 18, 'LEVEL ' + lvl.id, { fontSize: '13px', color: '#00ff88' });
+            this.add.text(w/2 - 300, y - 18, 'LEVEL ' + lvl.id, { fontSize: '13px', color: '#8D6477' });
             this.add.text(w/2 - 300, y + 6, lvl.name, { fontSize: '19px', color: '#D0A0B7' });
-            this.add.text(w/2 + 310, y, lvl.desc, { fontSize: '12px', color: '#666' }).setOrigin(1, 0.5);
+            this.add.text(w/2 + 310, y, lvl.desc, { fontSize: '12px', color: '#6A525D' }).setOrigin(1, 0.5);
             
             box.on('pointerover', () => box.setFillStyle(0x2a2a3e));
             box.on('pointerout', () => box.setFillStyle(0x1a1a2e));
             box.on('pointerdown', () => this.scene.start('Game', { level: lvl.id }));
         });
         
-        this.createButton(w/2, h - 55, '←  BACK TO MENU', () => this.scene.start('Menu'));
+        this.createButton(w/2, h - 55, 'BACK TO MENU', () => this.scene.start('Menu'));
     }
     
     createButton(x, y, text, callback) {
@@ -605,34 +701,34 @@ class Leaderboard extends Phaser.Scene {
         const w = C.W, h = C.H;
         this.add.rectangle(w/2, h/2, w, h, C.dark);
         
-        this.add.text(w/2, 50, '🏆 LEADERBOARD', { fontSize: '32px', color: '#D0A0B7' }).setOrigin(0.5);
+        this.add.text(w/2, 50, 'LEADERBOARD', { fontSize: '32px', color: '#D0A0B7' }).setOrigin(0.5);
         
         // Loading text
-        const loading = this.add.text(w/2, 300, 'Loading...', { fontSize: '16px', color: '#666' }).setOrigin(0.5);
+        const loading = this.add.text(w/2, 300, 'Loading...', { fontSize: '16px', color: '#6A525D' }).setOrigin(0.5);
         
         try {
             const leaderboard = await getLeaderboard();
             loading.destroy();
             
             if (leaderboard.length === 0) {
-                this.add.text(w/2, 300, 'No scores yet! Be the first to play!', { fontSize: '16px', color: '#666' }).setOrigin(0.5);
+                this.add.text(w/2, 300, 'No scores yet! Be the first to play!', { fontSize: '16px', color: '#6A525D' }).setOrigin(0.5);
             } else {
                 leaderboard.forEach((entry, i) => {
                     const y = 120 + i * 48;
-                    const rankColor = i === 0 ? '#ffd700' : i === 1 ? '#c0c0c0' : i === 2 ? '#cd7f32' : '#666';
+                    const rankColor = i === 0 ? '#D0A0B7' : i === 1 ? '#8D6477' : i === 2 ? '#6A525D' : '#555';
                     const isMe = currentUser && entry.username.toLowerCase() === currentUser.username.toLowerCase();
                     
                     this.add.text(w/2 - 280, y, '#' + (i + 1), { fontSize: '18px', color: rankColor });
-                    this.add.text(w/2 - 220, y, entry.realName || entry.username, { fontSize: '16px', color: isMe ? '#00ff88' : '#D0A0B7' });
-                    this.add.text(w/2 + 120, y, entry.highScore.toLocaleString(), { fontSize: '16px', color: '#00ff88' }).setOrigin(1, 0);
-                    this.add.text(w/2 + 220, y, 'Lv.' + entry.level, { fontSize: '14px', color: '#666' }).setOrigin(1, 0);
+                    this.add.text(w/2 - 220, y, entry.realName || entry.username, { fontSize: '16px', color: isMe ? '#D0A0B7' : '#8D6477' });
+                    this.add.text(w/2 + 120, y, entry.highScore.toLocaleString(), { fontSize: '16px', color: '#D0A0B7' }).setOrigin(1, 0);
+                    this.add.text(w/2 + 220, y, 'Lv.' + entry.level, { fontSize: '14px', color: '#6A525D' }).setOrigin(1, 0);
                 });
             }
         } catch (e) {
             loading.setText('Could not load leaderboard');
         }
         
-        this.createButton(w/2, h - 55, '←  BACK TO MENU', () => this.scene.start('Menu'));
+        this.createButton(w/2, h - 55, 'BACK TO MENU', () => this.scene.start('Menu'));
     }
     
     createButton(x, y, text, callback) {
@@ -842,9 +938,9 @@ class Game extends Phaser.Scene {
         this.add.text(20, 48, 'BOOST', { fontSize: '12px', color: '#D0A0B7' }).setScrollFactor(0).setDepth(100);
         
         this.scoreTxt = this.add.text(C.W - 20, 20, 'SCORE: 0', { fontSize: '20px', color: '#D0A0B7' }).setOrigin(1, 0).setScrollFactor(0).setDepth(100);
-        this.cryptoTxt = this.add.text(C.W - 20, 45, 'CRYPTO: 0', { fontSize: '14px', color: '#00ff88' }).setOrigin(1, 0).setScrollFactor(0).setDepth(100);
+        this.cryptoTxt = this.add.text(C.W - 20, 45, 'CRYPTO: 0', { fontSize: '14px', color: '#8D6477' }).setOrigin(1, 0).setScrollFactor(0).setDepth(100);
         
-        this.add.text(C.W / 2, 20, 'LEVEL ' + this.lvl, { fontSize: '14px', color: '#666' }).setOrigin(0.5, 0).setScrollFactor(0).setDepth(100);
+        this.add.text(C.W / 2, 20, 'LEVEL ' + this.lvl, { fontSize: '14px', color: '#6A525D' }).setOrigin(0.5, 0).setScrollFactor(0).setDepth(100);
         
         this.updateHUD();
     }
@@ -865,7 +961,7 @@ class Game extends Phaser.Scene {
     showIntro(name) {
         const ov = this.add.rectangle(C.W / 2, C.H / 2, C.W, C.H, 0x000000, 0.8).setScrollFactor(0).setDepth(200);
         const t1 = this.add.text(C.W / 2, C.H / 2 - 30, 'LEVEL ' + this.lvl, { fontSize: '48px', color: '#D0A0B7' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
-        const t2 = this.add.text(C.W / 2, C.H / 2 + 30, name, { fontSize: '24px', color: '#00ff88' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
+        const t2 = this.add.text(C.W / 2, C.H / 2 + 30, name, { fontSize: '24px', color: '#8D6477' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
         
         this.time.delayedCall(1500, () => {
             this.tweens.add({
@@ -997,20 +1093,20 @@ class Game extends Phaser.Scene {
         this.won = true;
         this.physics.pause();
         
-        this.cameras.main.flash(500, 0, 255, 136);
+        this.cameras.main.flash(500, 208, 160, 183);
         
         // Save score
         if (currentUser) {
             await saveScore(currentUser.username, currentUser.realName, this.lvl, this.score, this.crypto);
         }
         
-        showAchievement('🎉 Level Complete!', 'Score: ' + this.score);
+        showAchievement('Level Complete!', 'Score: ' + this.score);
         
         const w = C.W, h = C.H;
         this.add.rectangle(w / 2, h / 2, w, h, 0x000000, 0.9).setScrollFactor(0).setDepth(200);
-        this.add.text(w / 2, h / 2 - 100, 'LEVEL COMPLETE', { fontSize: '48px', color: '#00ff88' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
-        this.add.text(w / 2, h / 2 - 20, 'Score: ' + this.score, { fontSize: '24px', color: '#D0A0B7' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
-        this.add.text(w / 2, h / 2 + 20, 'Crypto: ' + this.crypto, { fontSize: '18px', color: '#00ff88' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
+        this.add.text(w / 2, h / 2 - 100, 'LEVEL COMPLETE', { fontSize: '48px', color: '#D0A0B7' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
+        this.add.text(w / 2, h / 2 - 20, 'Score: ' + this.score, { fontSize: '24px', color: '#8D6477' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
+        this.add.text(w / 2, h / 2 + 20, 'Crypto: ' + this.crypto, { fontSize: '18px', color: '#D0A0B7' }).setOrigin(0.5).setScrollFactor(0).setDepth(200);
         
         if (this.lvl < 5) {
             this.createButton(w / 2, h / 2 + 100, 'NEXT LEVEL', () => this.scene.restart({ level: this.lvl + 1 }));
